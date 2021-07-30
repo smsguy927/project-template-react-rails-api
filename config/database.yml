@@ -22,8 +22,14 @@ default: &default
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
 development:
-  <<: *default
-  database: react_rails_api_project_template_development
+  development:
+  adapter: postgresql
+  database: property-rental-dev
+  username: smsguy927
+  password: scottyy92
+  pool: 5
+  timeout: 5000
+
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
