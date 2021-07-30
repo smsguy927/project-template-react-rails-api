@@ -1,0 +1,2 @@
+class PropertyReviewsController < ApplicationController
+end
