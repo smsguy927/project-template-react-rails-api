@@ -8,7 +8,7 @@ class CreateUsers < ActiveRecord::Migration[6.1]
       t.boolean :admin
       t.string :email
       t.string :phone_number
-      t.belongs_to :address, null: false, foreign_key: true
+      t.integer :address_id, null: false, foreign_key: true
 
       t.timestamps
     end

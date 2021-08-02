@@ -10,8 +10,8 @@ class CreatePropertyReviews < ActiveRecord::Migration[6.1]
       t.string :comment
       t.integer :month
       t.integer :year
-      t.belongs_to :user, null: false, foreign_key: true
-      t.belongs_to :property, null: false, foreign_key: true
+      t.integer :user_id, null: false, foreign_key: true
+      t.integer :property_id, null: false, foreign_key: true
 
       t.timestamps
     end

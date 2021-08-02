@@ -6,7 +6,7 @@ class CreateProperties < ActiveRecord::Migration[6.1]
       t.string :description
       t.integer :num_bedrooms
       t.integer :num_bathrooms
-      t.belongs_to :address, null: false, foreign_key: true
+      t.integer :address_id, null: false, foreign_key: true
       t.timestamps
     end
   end
