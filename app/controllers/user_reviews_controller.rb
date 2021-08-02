@@ -1,5 +1,14 @@
+# frozen_string_literal: true
+
 class UserReviewsController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :display_not_found_response
+  rescue_from ActiveRecord::RecordInvalid, with: :display_could_not_create
+
+  def create
+    user_review = UserReview.create!(user_review_params)
+    render json: user_review, status: :created
+  end
+
   def index
     render json: UserReview.all
   end
@@ -11,11 +20,19 @@ class UserReviewsController < ApplicationController
 
   private
 
+  def user_review_params
+    params.permit(:general, :comment, :month, :year, :reviewed_by, :user_id)
+  end
+
   def find_user_review
     UserReview.find(params[:id])
   end
 
   def display_not_found_response
     render json: { error: 'User Review not found.' }, status: :not_found
+  end
+
+  def display_could_not_create(exception)
+    render json: { errors: exception.record.errors.full_messages }, status: :unprocessable_entity
   end
 end
