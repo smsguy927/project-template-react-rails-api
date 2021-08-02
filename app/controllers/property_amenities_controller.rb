@@ -23,6 +23,12 @@ class PropertyAmenitiesController < ApplicationController
     render json: property_amenity
   end
 
+  def destroy
+    property_amenity = find_property_amenity
+    property_amenity.destroy
+    head :no_content
+  end
+
   private
 
   def property_amenity_params

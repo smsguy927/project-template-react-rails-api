@@ -23,6 +23,12 @@ class AddressesController < ApplicationController
     render json: address
   end
 
+  def destroy
+    address = find_address
+    address.destroy
+    head :no_content
+  end
+
   private
 
   def address_params

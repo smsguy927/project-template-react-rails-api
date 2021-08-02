@@ -23,6 +23,12 @@ class AmenitiesController < ApplicationController
     render json: amenity
   end
 
+  def destroy
+    amenity = find_amenity
+    amenity.destroy
+    head :no_content
+  end
+
   private
 
   def amenity_params

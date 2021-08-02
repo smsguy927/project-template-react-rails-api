@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PropertiesController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :display_not_found_response
   rescue_from ActiveRecord::RecordInvalid, with: :display_could_not_process
@@ -19,6 +21,12 @@ class PropertiesController < ApplicationController
   def show
     property = find_property
     render json: property
+  end
+
+  def destroy
+    property = find_property
+    property.destroy
+    head :no_content
   end
 
   private

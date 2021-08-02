@@ -23,6 +23,12 @@ class ListingsController < ApplicationController
     render json: listing
   end
 
+  def destroy
+    listing = find_listing
+    listing.destroy
+    head :no_content
+  end
+
   private
 
   def listing_params

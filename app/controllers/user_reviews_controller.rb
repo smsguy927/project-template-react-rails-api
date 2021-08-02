@@ -23,6 +23,12 @@ class UserReviewsController < ApplicationController
     render json: user_review
   end
 
+  def destroy
+    user_review = find_user_review
+    user_review.destroy
+    head :no_content
+  end
+
   private
 
   def user_review_params

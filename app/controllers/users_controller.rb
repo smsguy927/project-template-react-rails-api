@@ -14,7 +14,6 @@ class UsersController < ApplicationController
     user.update!(user_params)
   end
 
-
   def index
     render json: User.all
   end
@@ -22,6 +21,12 @@ class UsersController < ApplicationController
   def show
     user = find_user
     render json: user
+  end
+
+  def destroy
+    user = find_user
+    user.destroy
+    head :no_content
   end
 
   private

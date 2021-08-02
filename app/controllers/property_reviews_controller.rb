@@ -23,6 +23,12 @@ class PropertyReviewsController < ApplicationController
     render json: property_review
   end
 
+  def destroy
+    property_review = find_property_review
+    property_review.destroy
+    head :no_content
+  end
+
   private
 
   def property_review_params
