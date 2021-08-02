@@ -2,11 +2,16 @@
 
 class PropertyAmenitiesController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :display_not_found_response
-  rescue_from ActiveRecord::RecordInvalid, with: :display_could_not_create
+  rescue_from ActiveRecord::RecordInvalid, with: :display_could_not_process
 
   def create
     property_amenity = PropertyAmenity.create!(property_amenity_params)
     render json: property_amenity, status: :created
+  end
+
+  def update
+    property_amenity = find_property_amenity
+    property_amenity.update!(property_amenity_params)
   end
 
   def index
@@ -32,7 +37,7 @@ class PropertyAmenitiesController < ApplicationController
     render json: { error: 'Property Amenity not found.' }, status: :not_found
   end
 
-  def display_could_not_create(exception)
+  def display_could_not_process(exception)
     render json: { errors: exception.record.errors.full_messages }, status: :unprocessable_entity
   end
 end

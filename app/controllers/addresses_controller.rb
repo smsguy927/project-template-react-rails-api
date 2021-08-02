@@ -2,11 +2,16 @@
 
 class AddressesController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :display_not_found_response
-  rescue_from ActiveRecord::RecordInvalid, with: :display_could_not_create
+  rescue_from ActiveRecord::RecordInvalid, with: :display_could_not_process
 
   def create
     address = Address.create!(address_params)
     render json: address, status: :created
+  end
+
+  def update
+    address = find_address
+    address.update!(address_params)
   end
 
   def index
@@ -32,7 +37,7 @@ class AddressesController < ApplicationController
     render json: { error: 'Address not found.' }, status: :not_found
   end
 
-  def display_could_not_create(exception)
+  def display_could_not_process(exception)
     render json: { errors: exception.record.errors.full_messages }, status: :unprocessable_entity
   end
 end

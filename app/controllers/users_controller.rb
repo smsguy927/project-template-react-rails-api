@@ -2,12 +2,18 @@
 
 class UsersController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :display_not_found_response
-  rescue_from ActiveRecord::RecordInvalid, with: :display_could_not_create
+  rescue_from ActiveRecord::RecordInvalid, with: :display_could_not_process
 
   def create
     user = User.create!(user_params)
     render json: user, status: :created
   end
+
+  def update
+    user = find_user
+    user.update!(user_params)
+  end
+
 
   def index
     render json: User.all
@@ -32,7 +38,7 @@ class UsersController < ApplicationController
     render json: { error: 'User not found.' }, status: :not_found
   end
 
-  def display_could_not_create(exception)
+  def display_could_not_process(exception)
     render json: { errors: exception.record.errors.full_messages }, status: :unprocessable_entity
   end
 end

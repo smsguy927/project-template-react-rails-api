@@ -2,7 +2,7 @@
 
 class ListingsController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :display_not_found_response
-  rescue_from ActiveRecord::RecordInvalid, with: :display_could_not_create
+  rescue_from ActiveRecord::RecordInvalid, with: :display_could_not_process
 
   def create
     listing = Listing.create!(listing_params)
@@ -11,6 +11,11 @@ class ListingsController < ApplicationController
 
   def index
     render json: Listing.all
+  end
+
+  def update
+    listing = find_listing
+    listing.update!(listing_params)
   end
 
   def show
@@ -32,7 +37,7 @@ class ListingsController < ApplicationController
     render json: { error: 'Listing not found.' }, status: :not_found
   end
 
-  def display_could_not_create(exception)
+  def display_could_not_process(exception)
     render json: { errors: exception.record.errors.full_messages }, status: :unprocessable_entity
   end
 end

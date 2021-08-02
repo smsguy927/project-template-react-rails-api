@@ -2,11 +2,16 @@
 
 class UserReviewsController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :display_not_found_response
-  rescue_from ActiveRecord::RecordInvalid, with: :display_could_not_create
+  rescue_from ActiveRecord::RecordInvalid, with: :display_could_not_process
 
   def create
     user_review = UserReview.create!(user_review_params)
     render json: user_review, status: :created
+  end
+
+  def update
+    user_review = find_user_review
+    user_review.update!(user_review_params)
   end
 
   def index
@@ -32,7 +37,7 @@ class UserReviewsController < ApplicationController
     render json: { error: 'User Review not found.' }, status: :not_found
   end
 
-  def display_could_not_create(exception)
+  def display_could_not_process(exception)
     render json: { errors: exception.record.errors.full_messages }, status: :unprocessable_entity
   end
 end

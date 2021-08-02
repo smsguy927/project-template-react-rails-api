@@ -2,11 +2,16 @@
 
 class AmenitiesController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :display_not_found_response
-  rescue_from ActiveRecord::RecordInvalid, with: :display_could_not_create
+  rescue_from ActiveRecord::RecordInvalid, with: :display_could_not_process
 
   def create
     amenity = Amenity.create!(amenity_params)
     render json: amenity, status: :created
+  end
+
+  def update
+    amenity = find_amenity
+    amenity.update!(amenity_params)
   end
 
   def index
@@ -32,7 +37,7 @@ class AmenitiesController < ApplicationController
     render json: { error: 'Amenity not found.' }, status: :not_found
   end
 
-  def display_could_not_create(exception)
+  def display_could_not_process(exception)
     render json: { errors: exception.record.errors.full_messages }, status: :unprocessable_entity
   end
 end
