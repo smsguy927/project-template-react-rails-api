@@ -1,3 +1,3 @@
 class UserReviewSerializer < ActiveModel::Serializer
-  attributes :id
+  attributes :id, :general, :comment, :month, :year, :reviewed_by
 end
